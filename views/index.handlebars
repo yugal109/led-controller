@@ -1,0 +1,56 @@
+<div class="notification-container">
+  <div class="header">Logs</div>
+  <ul id="notifications-list" class="notification-list">
+    {{#each logs}}
+    <li class="notification-item">
+      <div class="notification-icon">🔔</div>
+      <div class="notification-content">
+        <div class="notification-content-inner">
+          <p class="notification-title">
+            {{#if this.user.userName}}
+            {{{this.user.userName}}}
+            {{else}}
+            deleted
+            {{/if}}
+
+            : Changed the color of the section -
+            {{{this.user.index}}}
+            to
+            {{{this.colorCode}}}
+          </p>
+          <div style="margin-left:10px;width: 20px; height: 20px; background-color: #{{{this.colorCode}}};"></div>
+        </div>
+        <p class="notification-time">{{{this.createdAt}}}</p>
+        <h3 style="color:black" class="notification-time">Packet: {
+          "colorCode":{{{this.colorCode}}}, "index":{{{this.user.index}}}
+          }</h3>
+      </div>
+    </li>
+    {{/each}}
+
+  </ul>
+</div>
+
+<script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+<script>
+  const listItem = document.getElementById("notifications-list"); const
+    logSocket = io('/logs'); logSocket.on('connect', () => {
+      logSocket.emit('joinRoom', 'room1');
+    }); logSocket.on('log_notify', (data) => {
+      console.log('Notification:', data); listItem.innerHTML = ` <li
+  class="notification-item"> <div class="notification-icon">🔔</div> <div
+  class="notification-content"> <div class="notification-content-inner"> <p
+  class="notification-title"> ${data?.user?.userName} : Changed the color of the
+  section - ${data?.user?.index} to ${data?.colorCode} </p> <div
+  style="margin-left:10px;width: 20px; height: 20px; background-color:
+  #${data?.colorCode};"></div> </div> 
+  <p
+  class="notification-time">${data?.createdAt}</p>
+        <h3 style="color:black" class="notification-time">Packet: {
+          "colorCode":${data?.colorCode}, "index":${data?.user?.index}
+          }</h3>
+   </div> </li> 
+  ` +
+        listItem.innerHTML;
+    });
+</script>
