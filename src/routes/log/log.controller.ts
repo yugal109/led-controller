@@ -29,18 +29,15 @@ export const createLogController = async (
   next: NextFunction
 ) => {
   try {
-    const { colorCode, user } = req.body;
-    if (!colorCode || !user) {
-      next(
-        new CustomError(
-          CustomConstants.joiError,
-          "Send both colorCode and user."
-        )
-      );
+    const { colorCode, user, effect, brightness } = req.body;
+    if (!user) {
+      next(new CustomError(CustomConstants.joiError, "User id is missing."));
     }
     const log = await LogModel.create({
       colorCode,
       user,
+      effect,
+      brightness,
     });
 
     const oneLog = await LogModel.findById(log._id).populate("user");

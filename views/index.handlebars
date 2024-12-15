@@ -6,24 +6,23 @@
       <div class="notification-icon">🔔</div>
       <div class="notification-content">
         <div class="notification-content-inner">
-          <p class="notification-title">
+          <i class="notification-title">
             {{#if this.user.userName}}
             {{{this.user.userName}}}
             {{else}}
             deleted
             {{/if}}
 
-            : Changed the color of the section -
-            {{{this.user.index}}}
-            to
-            {{{this.colorCode}}}
-          </p>
-          <div style="margin-left:10px;width: 20px; height: 20px; background-color: #{{{this.colorCode}}};"></div>
+            : Triggered a change.
+
+          </i>
+
         </div>
         <p class="notification-time">{{{this.createdAt}}}</p>
-        <h3 style="color:black" class="notification-time">Packet: {
-          "colorCode":{{{this.colorCode}}}, "index":{{{this.user.index}}}
-          }</h3>
+        <h3 style="color:black" class="notification-time">Packet: { "color":"
+
+          {{{this.colorCode}}}", "index":"{{{this.user.index}}}", "effect":"{{{this.effect}}}"
+          , "brightness":"{{{this.brightness}}}" }</h3>
       </div>
     </li>
     {{/each}}
@@ -37,20 +36,26 @@
     logSocket = io('/logs'); logSocket.on('connect', () => {
       logSocket.emit('joinRoom', 'room1');
     }); logSocket.on('log_notify', (data) => {
-      console.log('Notification:', data); listItem.innerHTML = ` <li
-  class="notification-item"> <div class="notification-icon">🔔</div> <div
-  class="notification-content"> <div class="notification-content-inner"> <p
-  class="notification-title"> ${data?.user?.userName} : Changed the color of the
-  section - ${data?.user?.index} to ${data?.colorCode} </p> <div
-  style="margin-left:10px;width: 20px; height: 20px; background-color:
-  #${data?.colorCode};"></div> </div> 
-  <p
-  class="notification-time">${data?.createdAt}</p>
-        <h3 style="color:black" class="notification-time">Packet: {
-          "colorCode":${data?.colorCode}, "index":${data?.user?.index}
-          }</h3>
-   </div> </li> 
-  ` +
-        listItem.innerHTML;
+      console.log('Notification:', data); listItem.innerHTML = `
+    <li class="notification-item">
+      <div class="notification-icon">🔔</div>
+      <div class="notification-content">
+        <div class="notification-content-inner">
+          <i class="notification-title">
+            ${data.user.userName}
+            : Triggered a change.
+
+          </i>
+
+        </div>
+        <p class="notification-time">{{{this.createdAt}}}</p>
+        <h3 style="color:black" class="notification-time">Packet: { "color":"
+
+          ${data.colorCode}", "index":"${data.user.index}", "effect":"${data.effect}"
+          , "brightness":"${data.brightness}" }</h3>
+      </div>
+    </li>
+  
+  ` + listItem.innerHTML;
     });
 </script>

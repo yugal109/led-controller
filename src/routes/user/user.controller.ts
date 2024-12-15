@@ -45,7 +45,7 @@ export const createUserController = async (
     }
 
     const users = await UserModel.find({});
-    if (users.length >= 15) {
+    if (users.length >= 25) {
       next(
         new CustomError(
           CustomConstants.alreadyExistsError,

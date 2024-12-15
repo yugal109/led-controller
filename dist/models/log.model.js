@@ -9,6 +9,14 @@ const LogSchema = new Schema({
         ref: "User",
         required: true,
     },
+    effect: {
+        type: String,
+        default: "",
+    },
+    brightness: {
+        type: Number,
+        default: 0.0,
+    },
 }, { timestamps: true });
 const LogModel = model("Log", LogSchema);
 export default LogModel;

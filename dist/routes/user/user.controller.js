@@ -22,7 +22,7 @@ export const createUserController = async (req, res, next) => {
             next(new CustomError(CustomConstants.alreadyExistsError, "User with this username already exists."));
         }
         const users = await UserModel.find({});
-        if (users.length >= 15) {
+        if (users.length >= 25) {
             next(new CustomError(CustomConstants.alreadyExistsError, "The user slots are already filled."));
         }
         const user = await UserModel.create({

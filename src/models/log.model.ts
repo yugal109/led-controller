@@ -3,6 +3,8 @@ import { Schema, model, Document } from "mongoose";
 interface ILog extends Document {
   colorCode: string;
   user: Schema.Types.ObjectId;
+  effect: string;
+  brightness: number;
 }
 
 const LogSchema = new Schema<ILog>(
@@ -15,6 +17,14 @@ const LogSchema = new Schema<ILog>(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
+    },
+    effect: {
+      type: String,
+      default: "",
+    },
+    brightness: {
+      type: Number,
+      default: 0.0,
     },
   },
   { timestamps: true }
