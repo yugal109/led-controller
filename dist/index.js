@@ -17,8 +17,19 @@ const httpServer = createServer(app);
 app.use(cors({ origin: "*" }));
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
+// serve static files
+app.use(express.static("public"));
 app.set("views", "./views");
 const port = process.env.PORT || 3000;
+app.get("/", async (req, res, next) => {
+    try {
+        res.render("home", { data: "" });
+    }
+    catch (e) {
+        console.log(e);
+        res.status(500).send(`e`);
+    }
+});
 app.get("/logs", async (req, res, next) => {
     try {
         const logs = await LogModel.find({})

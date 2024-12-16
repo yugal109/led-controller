@@ -32,7 +32,7 @@ UserSchema.pre("save", async function (next) {
     try {
       let isUnique = false;
       while (!isUnique) {
-        const randomIndex = Math.floor(Math.random() * 25);
+        const randomIndex = Math.floor(Math.random() * 20);
         const existingUser = await UserModel.findOne({ index: randomIndex });
         if (!existingUser) {
           user.index = randomIndex;

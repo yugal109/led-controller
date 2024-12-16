@@ -21,9 +21,22 @@ app.use(cors({ origin: "*" }));
 
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
+
+// serve static files
+app.use(express.static("public"));
+
 app.set("views", "./views");
 
 const port = process.env.PORT || 3000;
+
+app.get("/", async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    res.render("home", { data: "" });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send(`e`);
+  }
+});
 
 app.get("/logs", async (req: Request, res: Response, next: NextFunction) => {
   try {
